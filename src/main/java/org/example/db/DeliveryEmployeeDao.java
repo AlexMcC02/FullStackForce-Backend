@@ -2,6 +2,7 @@ package org.example.db;
 
 import org.example.cli.DeliveryEmployee;
 import org.example.cli.DeliveryEmployeeRequest;
+import org.example.cli.SalesEmployeeRequest;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -61,32 +62,52 @@ public class DeliveryEmployeeDao {
         return null;
     }
 
-    public int createDeliveryEmployee(DeliveryEmployeeRequest delivery_employee) throws SQLException {
+    public int createDeliveryEmployee(DeliveryEmployeeRequest deliveryEmp) throws SQLException {
         Connection c = databaseConnector.getConnection();
-
-        String insertStatement = "INSERT INTO Delivery_Employee (first_name, last_name, salary, bank_account, national_insurance_number) VALUES (?, ?, ?, ?, ?)";
+        String insertStatement = "INSERT INTO Employee (first_name, last_name, salary, bank_account, national_insurance) VALUES " +
+                "(?,?,?,?,?);";
 
         PreparedStatement st = c.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
 
-        st.setString(1, delivery_employee.getFirstName());
-        st.setString(2, delivery_employee.getLastName());
-        st.setDouble(3, delivery_employee.getSalary());
-        st.setString(4, delivery_employee.getNationalInsurance());
-        st.setString(5, delivery_employee.getBackAccount());
+        st.setString(1, deliveryEmp.getFirstName());
+        st.setString(2, deliveryEmp.getLastName());
+        st.setDouble(3, deliveryEmp.getSalary());
+        st.setString(4, deliveryEmp.getBackAccount());
+        st.setString(5, deliveryEmp.getNationalInsurance());
+
 
         st.executeUpdate();
 
         ResultSet rs = st.getGeneratedKeys();
 
-        if (rs.next()) {
-            return rs.getInt(1);
+        int emp_id = 0;
+
+        if(rs.next()){
+            emp_id = rs.getInt(1);
+        } else {
+            throw new SQLException();
         }
-        return -1;
+
+        //Add Delivery Employee
+
+        insertStatement = "INSERT INTO Delivery_Employee (delivery_id, username) VALUES " +
+                "(?,?)";
+
+        st = c.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
+
+        st.setInt(1,emp_id);
+        st.setString(2,deliveryEmp.getUsername());
+
+        st.executeUpdate();
+
+        return emp_id;
+
     }
+
     public void updateDeliveryEmployee(int id, DeliveryEmployeeRequest delivery_employee) throws SQLException {
         Connection c = DatabaseConnector.getConnection();
 
-        String inputStatementEmployee = "UPDATE Delivery_Employee SET first_name = ?, last_name = ?, salary = ?," +
+        String inputStatementEmployee = "UPDATE Employee SET first_name = ?, last_name = ?, salary = ?," +
                 " bank_account = ?, national_insurance = ? WHERE emp_id = " + id + ";";
 
         PreparedStatement stEmployee = c.prepareStatement(inputStatementEmployee, Statement.RETURN_GENERATED_KEYS);
@@ -110,11 +131,19 @@ public class DeliveryEmployeeDao {
 
         Connection c = databaseConnector.getConnection();
 
-        String delete_statement = "DELETE FROM delivery_employees WHERE id = ?";
+        String delete_statement = "DELETE FROM Delivery_Employee WHERE delivery_id = ?";
 
         PreparedStatement st = c.prepareStatement(delete_statement);
 
-        st. setInt (1, id);
+        st.setInt (1, id);
+
+        st.executeUpdate();
+
+        String delete_statement2 = "DELETE FROM Employee WHERE emp_id = ?";
+
+        PreparedStatement st2 = c.prepareStatement(delete_statement2);
+
+        st2.setInt (1, id);
 
         st.executeUpdate();
     }
