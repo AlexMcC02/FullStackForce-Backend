@@ -3,10 +3,7 @@ package org.example.resources;
 import io.swagger.annotations.Api;
 import org.example.api.SalesEmployeeService;
 import org.example.cli.SalesEmployeeRequest;
-import org.example.client.FailedToDeleteSalesEmployeeException;
-import org.example.client.FailedToGetSalesEmployeeException;
-import org.example.client.FailedToUpdateSalesEmployeeException;
-import org.example.client.SalesEmployeeDoesNotExistException;
+import org.example.client.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -42,6 +39,18 @@ public class SalesEmployeeController {
         } catch (SalesEmployeeDoesNotExistException e){
             System.err.println((e.getMessage()));
             return Response.status(Response.Status.BAD_REQUEST.getStatusCode(), e.getMessage()).build();
+        }
+    }
+
+    @POST
+    @Path("/salesEmployees")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createProduct(SalesEmployeeRequest salesEmployee) {
+        try {
+            return Response.status(Response.Status.CREATED).entity(salesEmployeeService.createSalesEmployee(salesEmployee)).build();
+        } catch (FailedToCreateSalesEmployeeException e) {
+            System.err.println(e.getMessage());
+            return Response.serverError().build();
         }
     }
 
