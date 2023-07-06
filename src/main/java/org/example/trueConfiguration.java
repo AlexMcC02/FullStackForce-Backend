@@ -17,7 +17,7 @@ public class trueConfiguration extends Configuration {
 
     @JsonProperty("swagger")
     public SwaggerBundleConfiguration getSwagger() {
-        swagger.setResourcePackage("org.CFT.resources");
+        swagger.setResourcePackage("org.example.resources");
         String[] schemes = {"http", "https"};
         swagger.setSchemes(schemes);
         return swagger;
