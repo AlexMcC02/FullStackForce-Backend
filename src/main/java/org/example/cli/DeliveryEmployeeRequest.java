@@ -4,18 +4,51 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DeliveryEmployeeRequest {
-
-    private String name;
+    private String username;
+    private String firstName;
+    private String lastName;
     private double salary;
-    private String national_insurance_number;
-    private String bank_account_number;
+    private String nationalInsurance;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+    public String getNationalInsurance() {
+        return nationalInsurance;
+    }
+
+    public void setNationalInsurance(String nationalInsurance) {
+        this.nationalInsurance = nationalInsurance;
+    }
+
+    public String getBackAccount() {
+        return backAccount;
+    }
+
+    public void setBackAccount(String backAccount) {
+        this.backAccount = backAccount;
+    }
+
+    private String backAccount;
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public double getSalary() {
@@ -26,30 +59,18 @@ public class DeliveryEmployeeRequest {
         this.salary = salary;
     }
 
-    public String getNational_insurance_number() {
-        return national_insurance_number;
-    }
 
-    public void setNational_insurance_number(String national_insurance_number) {
-        this.national_insurance_number = national_insurance_number;
-    }
-
-    public String getBank_account_number() {
-        return bank_account_number;
-    }
-
-    public void setBank_account_number(String bank_account_number) {
-        this.bank_account_number = bank_account_number;
-    }
     @JsonCreator
     public DeliveryEmployeeRequest(
-            @JsonProperty("name") String name,
+            @JsonProperty("firstName") String firstName,
+            @JsonProperty("lastName") String lastName,
             @JsonProperty("salary") double salary,
-            @JsonProperty("national_insurance_number") String national_insurance_number,
-            @JsonProperty("bank_account_number") String bank_account_number) {
-        this.name = name;
+            @JsonProperty("national_insurance_number") String nationalInsurance,
+            @JsonProperty("bank_account_number") String backAccount) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.salary = salary;
-        this.national_insurance_number = national_insurance_number;
-        this.bank_account_number = bank_account_number;
+        this.nationalInsurance = nationalInsurance;
+        this.backAccount = backAccount;
     }
 }
