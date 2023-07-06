@@ -11,3 +11,6 @@ Health Check
 ---
 
 To see your applications health enter url `http://localhost:8081/healthcheck`
+
+# FullStackForce-Backend
+The backend for our group three project (The Full Stack Force)
