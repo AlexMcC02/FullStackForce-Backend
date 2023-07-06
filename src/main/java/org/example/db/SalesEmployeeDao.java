@@ -115,7 +115,7 @@ public class SalesEmployeeDao {
 
         stEmployee.executeUpdate();
 
-        String inputStatementDeliveryEmployee = "UPDATE Sales_Employee SET commissionRate = ? WHERE sales_id = " + id + ";";
+        String inputStatementDeliveryEmployee = "UPDATE Sales_Employee SET commission_rate = ? WHERE sales_id = " + id + ";";
 
         PreparedStatement stDeliveryEmployee = c.prepareStatement(inputStatementDeliveryEmployee, Statement.RETURN_GENERATED_KEYS);
         stDeliveryEmployee.setDouble(1, salesEmployee.getCommission_rate());
@@ -127,13 +127,21 @@ public class SalesEmployeeDao {
     {
         Connection c = DatabaseConnector.getConnection();
 
-        String deleteStatement = "DELETE FROM Sales_Employee WHERE delivery_id = ?";
+        String deleteStatement1 = "DELETE FROM Sales_Employee WHERE sales_id = ?";
 
-        PreparedStatement st = c.prepareStatement(deleteStatement);
+        PreparedStatement st1 = c.prepareStatement(deleteStatement1);
 
-        st.setInt(1,id);
+        st1.setInt(1,id);
 
-        st.executeUpdate();
+        st1.executeUpdate();
+
+        String deleteStatement2 = "DELETE FROM Employee WHERE emp_id = ?";
+
+        PreparedStatement st2 = c.prepareStatement(deleteStatement2);
+
+        st2.setInt(1,id);
+
+        st2.executeUpdate();
 
         c.close();
     }
