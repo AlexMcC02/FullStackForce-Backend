@@ -6,13 +6,15 @@ public abstract class Employee {
     private String lastName;
     private double salary;
     private String backAccount;
+    private String nationalInsurance;
 
-    public Employee(int empId, String firstName, String lastName, double salary, String backAccount) {
+    public Employee(int empId, String firstName, String lastName, double salary, String backAccount, String nationalInsurance) {
         this.empId = empId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.salary = salary;
         this.backAccount = backAccount;
+        this.nationalInsurance = nationalInsurance;
     }
 
     public int getEmpId() {
@@ -43,7 +45,7 @@ public abstract class Employee {
         return salary;
     }
 
-    public void setSalary(float salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 
@@ -53,5 +55,13 @@ public abstract class Employee {
 
     public void setBackAccount(String backAccount) {
         this.backAccount = backAccount;
+    }
+
+    public String getNationalInsurance() {
+        return nationalInsurance;
+    }
+
+    public void setNationalInsurance(String nationalInsurance) {
+        this.nationalInsurance = nationalInsurance;
     }
 }
