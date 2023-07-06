@@ -6,6 +6,7 @@ import io.dropwizard.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.example.resources.DeliveryEmployeeController;
+import org.example.resources.SalesEmployeeController;
 
 public class trueApplication extends Application<trueConfiguration> {
 
@@ -34,5 +35,6 @@ public class trueApplication extends Application<trueConfiguration> {
                     final Environment environment) {
         // TODO: implement application
         environment.jersey().register(new DeliveryEmployeeController());
+        environment.jersey().register(new SalesEmployeeController());
     }
 }
