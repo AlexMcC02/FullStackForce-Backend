@@ -1,7 +1,9 @@
 package org.example.api;
 
+import org.example.cli.DeliveryEmployee;
 import org.example.client.DeliveryEmployeeDoesNotExistException;
 import org.example.client.FailedToGetDeliveryEmployeeException;
+import org.example.db.DeliveryEmployeeDao;
 
 import java.sql.SQLException;
 import java.util.List;
