@@ -2,10 +2,7 @@ package org.example.api;
 
 import org.example.cli.SalesEmployee;
 import org.example.cli.SalesEmployeeRequest;
-import org.example.client.FailedToDeleteSalesEmployeeException;
-import org.example.client.FailedToGetSalesEmployeeException;
-import org.example.client.FailedToUpdateSalesEmployeeException;
-import org.example.client.SalesEmployeeDoesNotExistException;
+import org.example.client.*;
 import org.example.db.SalesEmployeeDao;
 
 import java.sql.SQLException;
@@ -35,6 +32,19 @@ public class SalesEmployeeService {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             throw new FailedToGetSalesEmployeeException();
+        }
+    }
+
+    public int createSalesEmployee(SalesEmployeeRequest salesEmployee) throws FailedToCreateSalesEmployeeException {
+        try {
+            int id = salesEmployeeDao.createSalesEmployee(salesEmployee);
+            if (id == -1) {
+                throw new FailedToCreateSalesEmployeeException();
+            }
+            return id;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            throw new FailedToCreateSalesEmployeeException();
         }
     }
 
