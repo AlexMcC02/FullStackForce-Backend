@@ -1,11 +1,9 @@
 package org.example.db;
 
 import org.example.cli.DeliveryEmployee;
+import org.example.cli.DeliveryEmployeeRequest;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,8 +36,7 @@ public class DeliveryEmployeeDao {
         return deliveryEmployeeList;
     }
 
-    public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException
-    {
+    public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException {
         Connection c = DatabaseConnector.getConnection();
         Statement st = c.createStatement();
 
@@ -64,4 +61,52 @@ public class DeliveryEmployeeDao {
         return null;
     }
 
+    public int createDeliveryEmployee(DeliveryEmployeeRequest delivery_employee) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        String insertStatement = "INSERT INTO delivery_employees (name, salary, national_insurance_number, bank_account_number) VALUES (?, ?, ?, ?)";
+
+        PreparedStatement st = c.prepareStatement(insertStatement, Statement.RETURN_GENERATED_KEYS);
+
+        st.setString(1, delivery_employee.getName());
+        st.setDouble(2, delivery_employee.getSalary());
+        st.setString(3, delivery_employee.getNational_insurance_number());
+        st.setString(4, delivery_employee.getBank_account_number());
+
+        st.executeUpdate();
+
+        ResultSet rs = st.getGeneratedKeys();
+
+        if (rs.next()) {
+            return rs.getInt(1);
+        }
+        return -1;
+    }
+    public void updateDeliveryEmployee(int id, DeliveryEmployeeRequest delivery_employee) throws SQLException {
+        Connection c = databaseConnector.getConnection();
+
+        String updateStatement = "UPDATE delivery_employees SET name = ?, salary = ?, national_insurance_number = ?, bank_account_number = ? WHERE id = ?";
+
+        PreparedStatement st = c.prepareStatement(updateStatement);
+
+        st.setString(1, delivery_employee.getName());
+        st.setDouble(2, delivery_employee.getSalary());
+        st.setString(3, delivery_employee.getNational_insurance_number());
+        st.setString(4, delivery_employee.getBank_account_number());
+        st.setInt(5, id);
+
+        st.executeUpdate();
+    }
+    public void deleteDeliveryEmployee (int id) throws SQLException {
+
+        Connection c = databaseConnector.getConnection();
+
+        String delete_statement = "DELETE FROM delivery_employees WHERE id = ?";
+
+        PreparedStatement st = c.prepareStatement(delete_statement);
+
+        st. setInt (1, id);
+
+        st.executeUpdate();
+    }
 }
