@@ -38,4 +38,30 @@ public class DeliveryEmployeeDao {
         return deliveryEmployeeList;
     }
 
+    public DeliveryEmployee getDeliveryEmployeeById(int id) throws SQLException
+    {
+        Connection c = DatabaseConnector.getConnection();
+        Statement st = c.createStatement();
+
+        ResultSet rs = st.executeQuery("SELECT emp_id,first_name,last_name, username, salary, bank_account, national_insurance"
+                + " FROM Delivery_Employee " +
+                "INNER JOIN Employee ON Delivery_Employee.delivery_id = Employee.emp_id "
+                + "WHERE delivery_id=" + id);
+
+        while (rs.next())
+        {
+            return new DeliveryEmployee(
+                    rs.getInt("emp_id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getDouble("salary"),
+                    rs.getString("bank_account"),
+                    rs.getString("national_insurance")
+            );
+
+        }
+        c.close();
+        return null;
+    }
+
 }
